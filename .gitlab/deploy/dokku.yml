@@ -1,7 +1,7 @@
 ---
 variables:
   REVIEW_APPS_DOMAIN: "aerolab.dev"
-  REVIEW_APPS_SUBDOMAIN_PREFIX: "cocos-capital-website"
+  REVIEW_APPS_SUBDOMAIN_PREFIX: "next-starter-2023"
 
 .functions: &functions |
   [[ "$TRACE" ]] && set -x
