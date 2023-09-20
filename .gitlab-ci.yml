@@ -1,0 +1,22 @@
+---
+image: alpine:latest
+
+stages:
+  - analysis
+  - review
+  - cleanup
+
+# This creates a temporary cache folder that prevents from
+# the node_modules, and .npm (also apply for .yarn)
+# to be recreated each CI run
+cache:
+  key:
+    files:
+      - pnpm-lock.yaml
+  paths:
+    - .pnpm-store
+
+include:
+  - local: /.gitlab/analysis/lint.yml
+  - local: /.gitlab/deploy/dokku.yml
+
