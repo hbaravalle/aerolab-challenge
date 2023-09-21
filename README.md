@@ -13,6 +13,8 @@
 - 🗂 Absolute import - Import folders and files using the @ prefix
 - 🤩 Zod - Typesafety for your code
 - 🚀 Deploy Preview - Deploy your branch to a unique URL
+- 🧐 Analytics - Google Analytics and Google Tag manager
+- 🧭 SEO - Meta tags, Sitemap.xml, robots.txt and more
 
 ## 🛠 Requirements
 
@@ -51,7 +53,7 @@ pnpm dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## 🐳 Setup Dokku
+## 🐳 CI Setup on Dokku
 
 ### Config
 
@@ -62,3 +64,21 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 1. Go to `Settings > CI/CD > Variables` and click the `Add variable` button
 2. Then add the `DOKKU_KEY` variable (ask the variable value to your manager or copy from this project settings)
+
+## ⚙️ Remove Tailwind CSS (Optional)
+
+1. Remove dependencies
+```
+pnpm remove tailwindcss autoprefixer tailwind-variants postcss
+```
+
+2.  Remove files
+    - `tailwind.config.ts`
+    - `postcss.config.js`
+    - `styles/globals.css`
+
+3. Remove imports of `styles/globals.css` in 
+    - `pages/_app.tsx`
+    - `.storybook/preview.ts`
+
+3. Done!
