@@ -6,9 +6,6 @@ stages:
   - review
   - cleanup
 
-# This creates a temporary cache folder that prevents from
-# the node_modules, and .npm (also apply for .yarn)
-# to be recreated each CI run
 cache:
   key:
     files:
@@ -18,5 +15,6 @@ cache:
 
 include:
   - local: /.gitlab/analysis/lint.yml
+  - local: /.gitlab/analysis/audit.yml
   - local: /.gitlab/deploy/dokku.yml
 

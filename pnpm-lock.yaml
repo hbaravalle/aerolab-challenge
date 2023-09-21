@@ -32,6 +32,12 @@ dependencies:
   next:
     specifier: 13.5.1
     version: 13.5.1(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)
+  next-seo:
+    specifier: ^6.1.0
+    version: 6.1.0(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
+  next-sitemap:
+    specifier: ^4.2.3
+    version: 4.2.3(next@13.5.1)
   postcss:
     specifier: 8.4.30
     version: 8.4.30
@@ -88,6 +94,9 @@ devDependencies:
   '@storybook/testing-library':
     specifier: ^0.2.1
     version: 0.2.1
+  '@types/gtag.js':
+    specifier: ^0.0.14
+    version: 0.0.14
   dotenv-cli:
     specifier: ^7.3.0
     version: 7.3.0
@@ -97,6 +106,9 @@ devDependencies:
   eslint-plugin-prettier:
     specifier: ^5.0.0
     version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.0.3)
+  eslint-plugin-simple-import-sort:
+    specifier: ^10.0.0
+    version: 10.0.0(eslint@8.49.0)
   eslint-plugin-storybook:
     specifier: ^0.6.13
     version: 0.6.13(eslint@8.49.0)(typescript@5.2.2)
@@ -1711,6 +1723,10 @@ packages:
     dependencies:
       chalk: 4.1.2
     dev: true
+
+  /@corex/deepmerge@4.0.43:
+    resolution: {integrity: sha512-N8uEMrMPL0cu/bdboEWpQYb/0i2K5Qn8eCsxzOmxSggJbbQte7ljMRoXm917AbntqTGOzdTu+vP3KOOzoC70HQ==}
+    dev: false
 
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -4454,6 +4470,10 @@ packages:
     resolution: {integrity: sha512-Sig0SNORX9fdW+bQuTEovKj3uHcUL6LQKbCrrqb1X7J6/ReAbhCXRAhc+SMejhLELFj2QcyuxmUooZ4bt5ReSw==}
     dependencies:
       '@types/node': 20.6.3
+    dev: true
+
+  /@types/gtag.js@0.0.14:
+    resolution: {integrity: sha512-NcR9rf3B93ie5T086NIpXGTtoIJeOeQ14+IBIBwfNBztb175e/0gONc60ywUU4+f9dwctgz9L3I4h5Gs/hl31g==}
     dev: true
 
   /@types/html-minifier-terser@6.1.0:
@@ -7260,6 +7280,14 @@ packages:
       string.prototype.matchall: 4.0.10
     dev: false
 
+  /eslint-plugin-simple-import-sort@10.0.0(eslint@8.49.0):
+    resolution: {integrity: sha512-AeTvO9UCMSNzIHRkg8S6c3RPy5YEwKWSQPx3DYghLedo2ZQxowPFLGDN1AZ2evfg6r6mjBSZSLxLFsWSu3acsw==}
+    peerDependencies:
+      eslint: '>=5.0.0'
+    dependencies:
+      eslint: 8.49.0
+    dev: true
+
   /eslint-plugin-storybook@0.6.13(eslint@8.49.0)(typescript@5.2.2):
     resolution: {integrity: sha512-smd+CS0WH1jBqUEJ3znGS7DU4ayBE9z6lkQAK2yrSUv1+rq8BT/tiI5C/rKE7rmiqiAfojtNYZRhzo5HrulccQ==}
     engines: {node: 12.x || 14.x || >= 16}
@@ -9773,6 +9801,32 @@ packages:
     dependencies:
       type-fest: 2.19.0
     dev: true
+
+  /next-seo@6.1.0(next@13.5.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-iMBpFoJsR5zWhguHJvsoBDxDSmdYTHtnVPB1ij+CD0NReQCP78ZxxbdL9qkKIf4oEuZEqZkrjAQLB0bkII7RYA==}
+    peerDependencies:
+      next: ^8.1.1-canary.54 || >=9.0.0
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      next: 13.5.1(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /next-sitemap@4.2.3(next@13.5.1):
+    resolution: {integrity: sha512-vjdCxeDuWDzldhCnyFCQipw5bfpl4HmZA7uoo3GAaYGjGgfL4Cxb1CiztPuWGmS+auYs7/8OekRS8C2cjdAsjQ==}
+    engines: {node: '>=14.18'}
+    hasBin: true
+    peerDependencies:
+      next: '*'
+    dependencies:
+      '@corex/deepmerge': 4.0.43
+      '@next/env': 13.5.1
+      fast-glob: 3.3.1
+      minimist: 1.2.8
+      next: 13.5.1(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)
+    dev: false
 
   /next@13.5.1(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-GIudNR7ggGUZoIL79mSZcxbXK9f5pwAIPZxEM8+j2yLqv5RODg4TkmUlaKSYVqE1bPQueamXSqdC3j7axiTSEg==}

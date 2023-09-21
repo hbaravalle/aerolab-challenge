@@ -4,8 +4,54 @@
     "plugin:prettier/recommended",
     "plugin:storybook/recommended"
   ],
+  "plugins": [
+    "simple-import-sort"
+  ],
   "rules": {
     "no-unused-vars": "warn",
     "prettier/prettier": "warn"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.js",
+        "*.jsx",
+        "*.mjs",
+        "*.ts",
+        "*.tsx"
+      ],
+      "rules": {
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              [
+                "^react",
+                "^@?\\w"
+              ],
+              [
+                "^(@|components)(/.*|$)"
+              ],
+              [
+                "^\\u0000"
+              ],
+              [
+                "^\\.\\.(?!/?$)",
+                "^\\.\\./?$"
+              ],
+              [
+                "^\\./(?=.*/)(?!/?$)",
+                "^\\.(?!/?$)",
+                "^\\./?$"
+              ],
+              [
+                "^.+\\.?(css)$"
+              ]
+            ]
+          }
+        ],
+        "simple-import-sort/exports": "error"
+      }
+    }
+  ]
 }

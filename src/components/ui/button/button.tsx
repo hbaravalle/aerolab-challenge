@@ -1,4 +1,4 @@
-import { FC, ComponentProps } from 'react';
+import { ComponentProps, FC } from 'react';
 import { tv, VariantProps } from 'tailwind-variants';
 
 const button = tv({
