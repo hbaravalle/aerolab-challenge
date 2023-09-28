@@ -1,8 +1,13 @@
 import '../src/styles/globals.css';
 
 import type { Preview } from '@storybook/react';
+import { Inter } from 'next/font/google';
 
 import { withThemeByClassName } from '@storybook/addon-styling';
+
+const inter = Inter({
+  subsets: ['latin'],
+});
 
 const preview: Preview = {
   parameters: {
@@ -25,6 +30,11 @@ const preview: Preview = {
       },
       defaultTheme: 'light',
     }),
+    (Story) => (
+      <div className={`${inter.className}`}>
+        <Story />
+      </div>
+    )
   ],
 };
 
