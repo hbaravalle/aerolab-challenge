@@ -28,7 +28,7 @@ Run the following commands to create a new project with this Starter:
 First clone the repo and remove the origin remote:
 
 ```bash
-git clone https://git.aerolab.co/aerolab-dev-team/next-starter
+git clone https://github.com/Aerolab/next-starter
 cd next-starter
 git remote rm origin
 ```
