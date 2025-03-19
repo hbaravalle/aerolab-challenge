@@ -8,10 +8,6 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@storybook/addon-onboarding',
     '@storybook/addon-interactions',
-    {
-      name: '@storybook/addon-styling',
-      options: {},
-    },
   ],
   framework: {
     name: '@storybook/nextjs',
@@ -20,7 +16,7 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
-  webpackFinal: async (config) => {
+  webpackFinal: async config => {
     if (config.resolve) {
       config.resolve.alias = {
         ...config.resolve.alias,
@@ -29,6 +25,5 @@ const config: StorybookConfig = {
     }
     return config;
   },
-
 };
 export default config;

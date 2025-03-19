@@ -2,7 +2,7 @@
 
 ## ✨ Features
 
-- 🚀 Next.js 13 & React 18
+- 🚀 Next.js 15 & React 19
 - 📝 TypeScript - Typed JavaScript
 - ⚙️ Tailwind CSS - A utility-first CSS framework
 - 🍓 Storybook - UI component explorer for frontend developers
@@ -18,8 +18,8 @@
 
 ## 🛠 Requirements
 
-- [Node.js](https://nodejs.org/en/) 18.0.0 or newer
-- [pnpm](https://pnpm.io/) 8.0.0 or newer
+- [Node.js](https://nodejs.org/en/) 22.0 or newer
+- [pnpm](https://pnpm.io/) 10.3.0 or newer
 
 ## 🚀 Getting started
 
@@ -51,6 +51,7 @@ Finally, run the development server:
 ```bash
 pnpm dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## 🐳 CI Setup on Dokku
@@ -68,17 +69,19 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## ⚙️ Remove Tailwind CSS (Optional)
 
 1. Remove dependencies
+
 ```
-pnpm remove tailwindcss autoprefixer tailwind-variants postcss
+pnpm remove tailwindcss tailwind-variants postcss @tailwindcss/postcss tailwind-merge clsx
 ```
 
 2.  Remove files
-    - `tailwind.config.ts`
-    - `postcss.config.js`
-    - `styles/globals.css`
 
-3. Remove imports of `styles/globals.css` in 
-    - `pages/_app.tsx`
+    - `postcss.config.js`
+    - `src/app/globals.css`
+
+3.  Remove imports of `src/app/globals.css` in
+
+    - `src/app/layout.tsx`
     - `.storybook/preview.ts`
 
-3. Done!
+4.  Done!
