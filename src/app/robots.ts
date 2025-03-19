@@ -1,5 +1,7 @@
 import { MetadataRoute } from 'next/types';
 
+import { env } from '@/lib/env';
+
 export default function Robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -8,5 +10,6 @@ export default function Robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
+    sitemap: new URL('sitemap.xml', env.SITE_URL).toString(),
   };
 }
