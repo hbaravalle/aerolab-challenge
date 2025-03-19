@@ -1,24 +1,18 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import Script from 'next/script';
+'use client';
 
-import { env } from '@/lib/env.mjs';
+import { usePathname } from 'next/navigation';
+import Script from 'next/script';
+import { useEffect } from 'react';
+
+import { env } from '@/lib/env';
 import * as gtag from '@/lib/gtag';
 
-export default function Analytics() {
-  const router = useRouter();
+export function Analytics() {
+  const pathname = usePathname();
 
   useEffect(() => {
-    const handleRouteChange = (url: URL) => {
-      gtag.pageview({ path: url.toString() });
-    };
-
-    router.events.on('routeChangeComplete', handleRouteChange);
-
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router.events]);
+    gtag.pageview({ path: pathname });
+  }, [pathname]);
 
   return (
     <>

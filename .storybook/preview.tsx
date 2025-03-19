@@ -1,13 +1,11 @@
-import '../src/styles/globals.css';
+import '../src/app/globals.css';
 
+import { withThemeByClassName } from '@storybook/addon-themes';
 import type { Preview } from '@storybook/react';
-import { Inter } from 'next/font/google';
+import React from 'react';
 
-import { withThemeByClassName } from '@storybook/addon-styling';
-
-const inter = Inter({
-  subsets: ['latin'],
-});
+import { fontVariables } from '../src/app/fonts';
+import { cn } from '../src/utils/cn';
 
 const preview: Preview = {
   parameters: {
@@ -22,7 +20,6 @@ const preview: Preview = {
 
   decorators: [
     // Adds theme switching support.
-    // NOTE: requires setting "darkMode" to "class" in your tailwind config
     withThemeByClassName({
       themes: {
         light: 'light',
@@ -30,11 +27,11 @@ const preview: Preview = {
       },
       defaultTheme: 'light',
     }),
-    (Story) => (
-      <div className={`${inter.className}`}>
+    Story => (
+      <div className={cn(...fontVariables)}>
         <Story />
       </div>
-    )
+    ),
   ],
 };
 
