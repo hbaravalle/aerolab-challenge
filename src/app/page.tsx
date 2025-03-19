@@ -1,6 +1,8 @@
+import { LuGithub } from 'react-icons/lu';
+
 export default function IndexPage() {
   return (
-    <main className="flex h-screen flex-col items-center justify-center bg-[rgb(42,40,35)] p-2 font-mono text-white">
+    <main className="bg-background flex h-screen flex-col items-center justify-center p-2 font-mono text-white">
       <div className="mx-auto text-center">
         <div className="mx-auto w-fit">
           <svg
@@ -35,16 +37,38 @@ export default function IndexPage() {
         </h1>
 
         <p className="mb-8 text-center text-sm text-white/70">
-          Powered by Aerolab
+          Powered by{' '}
+          <a
+            href="https://aerolab.co"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline transition duration-300 ease-in-out hover:text-white"
+          >
+            Aerolab
+          </a>
         </p>
 
-        <p className="mt-5 text-center text-lg font-medium">
-          Ready to start building?
-        </p>
-        <div className="mt-5 rounded-md bg-black p-2">
-          <p>
+        <div className="mt-5 space-y-5">
+          <p className="text-center text-lg font-medium">
+            Ready to start building?
+          </p>
+
+          <p className="mt-5 rounded-md bg-black p-2">
             Edit <code>src/app/page.tsx</code> and save to reload.
           </p>
+        </div>
+
+        <div className="mt-8 flex items-center justify-center">
+          <a
+            aria-label="clone in github"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/Aerolab/next-starter/"
+            className="flex items-center space-x-2 border-b border-white/70 pb-1 text-white/70 transition duration-300 ease-in-out hover:border-white hover:text-white"
+          >
+            <span>Clone in GitHub</span>
+            <LuGithub className="size-5" />
+          </a>
         </div>
       </div>
     </main>

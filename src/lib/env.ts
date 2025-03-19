@@ -6,7 +6,7 @@ export const env = createEnv({
     NODE_ENV: z.enum(['development', 'production']).default('development'),
   },
   server: {
-    SITE_URL: z.string().default('https://next-starter-develop.aerolab.dev'),
+    SITE_URL: z.string().default('https://starter.coolify.aerolab.dev/'),
   },
   client: {
     NEXT_PUBLIC_GA_MEASUREMENT_ID: z.string().optional(),
