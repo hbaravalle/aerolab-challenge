@@ -8,7 +8,7 @@ export default function IndexPage() {
           <svg
             width="200px"
             height="200px"
-            viewBox="0 0 21 18"
+            viewBox="-0.5 0 22 18"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
