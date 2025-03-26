@@ -53,23 +53,3 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## ⚙️ Remove Tailwind CSS (Optional)
-
-1. Remove dependencies
-
-```
-pnpm remove tailwindcss tailwind-variants postcss @tailwindcss/postcss tailwind-merge clsx
-```
-
-2.  Remove files
-
-    - `postcss.config.js`
-    - `src/app/globals.css`
-
-3.  Remove imports of `src/app/globals.css` in
-
-    - `src/app/layout.tsx`
-    - `.storybook/preview.ts`
-
-4.  Done!
