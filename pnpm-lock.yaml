@@ -138,9 +138,6 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.6.11
         version: 0.6.11(prettier@3.5.3)
-      release-it:
-        specifier: ^18.1.2
-        version: 18.1.2(@types/node@22.13.10)(typescript@5.8.2)
       storybook:
         specifier: ^8.6.10
         version: 8.6.10(prettier@3.5.3)

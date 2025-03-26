@@ -54,18 +54,6 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## 🐳 CI Setup on Dokku
-
-### Config
-
-1. Open `.gitlab/deploy/dokku.yml` file
-2. Then rename the value of `REVIEW_APPS_SUBDOMAIN_PREFIX` variable by your project name
-
-### Dokku Key
-
-1. Go to `Settings > CI/CD > Variables` and click the `Add variable` button
-2. Then add the `DOKKU_KEY` variable (ask the variable value to your manager or copy from this project settings)
-
 ## ⚙️ Remove Tailwind CSS (Optional)
 
 1. Remove dependencies
