@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
     removeConsole: {
       exclude: ['error', 'warn'],
     },
+    // removeConsole: false, // Debug
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.igdb.com',
+        pathname: '/igdb/image/upload/**',
+      },
+    ],
   },
 };
 

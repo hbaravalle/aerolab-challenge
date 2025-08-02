@@ -3,16 +3,151 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-background: rgb(42, 40, 35);
-
+  /* Typography System - Inter font */
+  --font-inter: Inter, sans-serif;
   --font-sans: var(--font-inter), sans-serif;
   --font-mono: var(--font-jetbrains), monospace;
 
-  --animate-draw: draw 3s linear forwards;
+  /* Font Sizes - Mobile first */
+  --font-size-h1: 1.25rem;
+  --font-weight-h1: 600;
+  --font-size-h1-desktop: 1.5rem;
+
+  --font-size-h2: 1rem;
+  --font-weight-h2: 600;
+  --font-size-h2-desktop: 1rem;
+
+  --font-size-h3: 0.875rem;
+  --font-weight-h3: 500;
+  --font-size-h3-desktop: 0.875rem;
+
+  --font-size-h4: 0.875rem;
+  --font-weight-h4: 500;
+  --font-size-h4-desktop: 0.875rem;
+
+  --font-size-h5: 0.875rem;
+  --font-weight-h5: 500;
+  --font-size-h5-desktop: 0.875rem;
+
+  /* Colors */
+  --color-gray-200: #e5e5e5;
+  --color-gray-500: #5c5c5c;
+
+  --color-pink-50: rgb(255 0 174 / 0.5);
+  --color-pink-100: #e7c0db;
+  --color-pink-200: #c698b8;
+  --color-pink-600: #ff00ae;
+
+  --color-violet-50: #e2dce7;
+  --color-violet-100: #775c90;
+  --color-violet-600: #6727a6;
+  --color-violet-900: #3c1661;
+
+  --color-red-600: #d23f63;
+  --color-green-600: #67c076;
+
+  /* Gradients */
+  --gradient-linear: linear-gradient(to left, #6727a6, #3c1661);
 }
 
-@keyframes draw {
-  to {
-    stroke-dashoffset: 0;
+@utility text-h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-h1);
+}
+
+@utility text-h1-desktop {
+  font-size: var(--font-size-h1-desktop);
+  font-weight: var(--font-weight-h1);
+}
+
+@utility text-h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-h2);
+}
+
+@utility text-h2-desktop {
+  font-size: var(--font-size-h2-desktop);
+  font-weight: var(--font-weight-h2);
+}
+
+@utility text-h3 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-h3);
+}
+
+@utility text-h3-desktop {
+  font-size: var(--font-size-h3-desktop);
+  font-weight: var(--font-weight-h3);
+}
+
+@utility text-h4 {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-h4);
+}
+
+@utility text-h4-desktop {
+  font-size: var(--font-size-h4-desktop);
+  font-weight: var(--font-weight-h4);
+}
+
+@utility text-h5 {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-h5);
+}
+
+@utility text-h5-desktop {
+  font-size: var(--font-size-h5-desktop);
+  font-weight: var(--font-weight-h5);
+}
+
+/* Utilities - Gradients */
+@utility bg-gradient-linear {
+  background-image: var(--gradient-linear);
+}
+
+/* Utilities - Shadows */
+@utility shadow-pink {
+  box-shadow: 0 4px 12px rgba(255, 0, 174, 0.15);
+}
+
+body {
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 275px;
+  background:
+    url('/background.svg'),
+    linear-gradient(
+      166deg,
+      rgba(255, 0, 174, 0.2) 17.78%,
+      rgba(255, 255, 255, 0) 92.83%
+    );
+
+  background-size: cover, 100%;
+  background-position: top, top;
+  background-repeat: no-repeat, no-repeat;
+  z-index: -1;
+}
+
+@media screen and (min-width: 768px) {
+  body::before {
+    background:
+      url('/background-desktop.svg'),
+      linear-gradient(
+        180deg,
+        rgba(255, 0, 174, 0.16) 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+    background-size: cover, 100%;
+    background-position:
+      top center,
+      top center;
+    background-repeat: no-repeat, no-repeat;
   }
 }

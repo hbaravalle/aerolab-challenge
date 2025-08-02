@@ -2,7 +2,7 @@ import './globals.css';
 
 import { Metadata, Viewport } from 'next/types';
 
-import { Analytics } from '@/components/common/analytics';
+import { Header } from '@/components/common/Header';
 import { env } from '@/lib/env';
 import { cn } from '@/utils/cn';
 
@@ -43,8 +43,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn(...fontVariables)}>
       <body className="font-sans antialiased">
-        <Analytics />
-        {children}
+        <div className="mx-auto max-w-3xl px-4 pt-8 md:pt-32">
+          <Header />
+          <main>{children}</main>
+        </div>
       </body>
     </html>
   );
