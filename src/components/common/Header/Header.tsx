@@ -2,9 +2,13 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { LuSearch } from 'react-icons/lu';
+import { useState } from 'react';
+import { LuSearch, LuX } from 'react-icons/lu';
 
 export default function Header() {
+  const [search, setSearch] = useState('');
+  const [searchIsFocused, setSearchIsFocused] = useState(false);
+
   return (
     <header className="flex flex-col gap-5 pb-5 md:pb-24">
       <Link
@@ -23,20 +27,53 @@ export default function Header() {
         </span>
       </Link>
 
-      <form className="md:mx-auto md:w-sm">
+      <form className="relative md:mx-auto md:w-sm">
         <label
           htmlFor="search"
-          className="shadow-pink flex w-full items-center gap-2 rounded-full border border-pink-200 bg-white px-4 py-3"
+          className={`${
+            searchIsFocused ? 'rounded-t-3xl rounded-b-none' : 'rounded-full'
+          } shadow-pink flex w-full items-center gap-2 border border-pink-200 bg-white px-4 py-3`}
         >
-          <LuSearch className="text-pink-100" strokeWidth={3} />
+          <LuSearch
+            className={`h-4 w-4 flex-shrink-0 transition-colors ${
+              searchIsFocused ? 'text-violet-600' : 'text-pink-200'
+            }`}
+            strokeWidth={3}
+          />
           <input
             type="text"
             name="search"
             id="search"
             placeholder="Search games..."
-            className="placeholder-opacity-100 text-pink-200 placeholder-pink-200"
+            className="placeholder-opacity-100 w-full text-black placeholder-pink-200 transition-colors outline-none focus:text-black"
+            value={search}
+            onInput={e => setSearch(e.currentTarget.value)}
+            onFocus={() => setSearchIsFocused(true)}
+            onBlur={() => setSearchIsFocused(false)}
           />
+          {searchIsFocused && (
+            <LuX
+              className="h-5 w-5 cursor-pointer"
+              strokeWidth={2}
+              onClick={() => setSearch('')}
+            />
+          )}
         </label>
+        {searchIsFocused && (
+          <div className="shadow-pink absolute z-20 w-full rounded-b-3xl border-x border-b border-pink-200 bg-white px-2 pt-1.5 pb-2.5">
+            <small className="block p-2 text-gray-500">Recommended</small>
+            <div className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:text-violet-600">
+              <Image
+                className="h-[30px] w-[30px] overflow-hidden rounded-sm object-cover object-top"
+                width={30}
+                height={30}
+                src="https://images.igdb.com/igdb/image/upload/t_cover_big/co66n7.jpg"
+                alt=""
+              />
+              <span>Grand Theft Auto San Andreas</span>
+            </div>
+          </div>
+        )}
       </form>
     </header>
   );
