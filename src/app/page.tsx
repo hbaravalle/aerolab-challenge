@@ -10,7 +10,11 @@ export default function IndexPage() {
   };
 
   return (
-    <section id="game-collection" aria-label="Saved games collection">
+    <section
+      className="mb-10"
+      id="game-collection"
+      aria-label="Saved games collection"
+    >
       <h2 className="text-h2 bg-gradient-linear md:text-h1-desktop mb-4 bg-clip-text text-transparent md:text-center">
         Saved games
       </h2>

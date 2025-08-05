@@ -13,7 +13,7 @@ export default function Header() {
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
 
-  const isGameDetailPage = Boolean(params?.id);
+  const isGameDetailPage = Boolean(params?.slug);
   const handleGoBack = () => router.push('/');
 
   return (

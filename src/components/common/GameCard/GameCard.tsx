@@ -6,7 +6,10 @@ import { LuTrash } from 'react-icons/lu';
 
 export default function GameCard() {
   return (
-    <Link href="/game/112233" className="relative overflow-hidden rounded-lg">
+    <Link
+      href="/game/grand-theft-auto-v"
+      className="relative overflow-hidden rounded-lg"
+    >
       <Image
         width={300}
         height={400}

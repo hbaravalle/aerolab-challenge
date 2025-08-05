@@ -1,35 +1,6 @@
-import { env } from './env';
+import type { IGDBGame } from '@/types';
 
-interface IGDBGame {
-  id: number;
-  name: string;
-  summary?: string;
-  cover?: {
-    id: number;
-    url: string;
-  };
-  rating?: number;
-  rating_count?: number;
-  release_dates?: Array<{
-    date: number;
-    platform: {
-      name: string;
-    };
-  }>;
-  genres?: Array<{
-    name: string;
-  }>;
-  platforms?: Array<{
-    name: string;
-  }>;
-  involved_companies?: Array<{
-    company: {
-      name: string;
-    };
-    developer: boolean;
-    publisher: boolean;
-  }>;
-}
+import { env } from './env';
 
 const IGDB_BASE_URL = 'https://api.igdb.com/v4';
 
@@ -49,15 +20,18 @@ async function igdbFetch(endpoint: string, body: string): Promise<Response> {
   });
 }
 
-export async function getGameById(id: string): Promise<IGDBGame | null> {
+export async function getGameBySlug(slug: string): Promise<IGDBGame | null> {
   try {
     const response = await igdbFetch(
       'games',
-      `fields name, summary, cover.url, rating, rating_count, 
-       release_dates.date, release_dates.platform.name,
+      `fields name, summary, cover.url, rating, 
+       release_dates.date,
        genres.name, platforms.name,
-       involved_companies.company.name, involved_companies.developer, involved_companies.publisher;
-       where id = ${id};`,
+       involved_companies.company.name, involved_companies.developer,
+       similar_games.name, similar_games.slug, similar_games.cover.url,
+       slug;
+       where slug = "${slug}";
+       limit 1;`,
     );
 
     if (!response.ok) {
@@ -72,12 +46,12 @@ export async function getGameById(id: string): Promise<IGDBGame | null> {
   }
 }
 
-export async function getPopularGames(limit: number = 20): Promise<IGDBGame[]> {
+export async function getPopularGames(limit: number = 5): Promise<IGDBGame[]> {
   try {
     const response = await igdbFetch(
       'games',
-      `fields name, cover.url, rating, rating_count;
-       where rating > 75 & rating_count > 500;
+      `fields name, cover.url, rating, slug;
+       where rating > 75;
        sort rating desc;
        limit ${limit};`,
     );
@@ -100,7 +74,7 @@ export async function searchGames(
   try {
     const response = await igdbFetch(
       'games',
-      `fields name, cover.url, rating;
+      `fields name, cover.url, rating, slug;
        search "${query}";
        where rating != null;
        limit ${limit};`,
@@ -116,5 +90,3 @@ export async function searchGames(
     return [];
   }
 }
-
-export type { IGDBGame };
