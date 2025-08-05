@@ -1,11 +1,12 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { LuTrash } from 'react-icons/lu';
 
 export default function GameCard() {
   return (
-    <div className="relative overflow-hidden rounded-lg">
+    <Link href="/game/112233" className="relative overflow-hidden rounded-lg">
       <Image
         width={300}
         height={400}
@@ -21,6 +22,6 @@ export default function GameCard() {
       >
         <LuTrash strokeWidth={3} />
       </button>
-    </div>
+    </Link>
   );
 }

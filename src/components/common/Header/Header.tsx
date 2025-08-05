@@ -2,30 +2,51 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { LuSearch, LuX } from 'react-icons/lu';
+import { LuArrowLeft, LuSearch, LuX } from 'react-icons/lu';
 
 export default function Header() {
+  const params = useParams();
+  const router = useRouter();
+
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
 
+  const isGameDetailPage = Boolean(params?.id);
+  const handleGoBack = () => router.push('/');
+
   return (
-    <header className="flex flex-col gap-5 pb-5 md:pb-24">
-      <Link
-        href="/"
-        className="flex w-fit items-center gap-2 transition-opacity hover:opacity-80 md:mx-auto"
-      >
-        <Image
-          className="h-6 w-6"
-          src="/logo.svg"
-          width={24}
-          height={24}
-          alt="Logo Gaming Heaven Z"
-        />
-        <span className="text-h1 md:text-h1-desktop bg-gradient-linear bg-clip-text text-transparent">
-          Gaming Heaven Z
-        </span>
-      </Link>
+    <header
+      className={`flex flex-col gap-5 pb-5 md:pb-24 ${isGameDetailPage && 'md:flex-row md:items-center'}`}
+    >
+      {isGameDetailPage ? (
+        <button
+          onClick={handleGoBack}
+          className="flex h-[30px] w-fit cursor-pointer items-center gap-2 font-semibold transition-opacity hover:opacity-80"
+        >
+          <LuArrowLeft className="text-violet-900" strokeWidth={2.5} />
+          <span className="bg-gradient-linear bg-clip-text text-transparent">
+            Back
+          </span>
+        </button>
+      ) : (
+        <Link
+          href="/"
+          className="flex w-fit items-center gap-2 transition-opacity hover:opacity-80 md:mx-auto"
+        >
+          <Image
+            className="h-6 w-6"
+            src="/logo.svg"
+            width={24}
+            height={24}
+            alt="Logo Gaming Heaven Z"
+          />
+          <span className="text-h1 md:text-h1-desktop bg-gradient-linear bg-clip-text text-transparent">
+            Gaming Heaven Z
+          </span>
+        </Link>
+      )}
 
       <form className="relative md:mx-auto md:w-sm">
         <label
