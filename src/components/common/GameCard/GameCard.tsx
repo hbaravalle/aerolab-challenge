@@ -24,6 +24,8 @@ export default function GameCard({ game }: GameCardProps) {
         height={400}
         src={getCoverImage(game.cover)}
         alt={game.name}
+        placeholder="empty"
+        priority
       />
       <button
         className="absolute right-2 bottom-2 cursor-pointer rounded-full bg-white p-3 text-black transition-colors hover:text-violet-600"

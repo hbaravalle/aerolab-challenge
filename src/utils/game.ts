@@ -13,8 +13,10 @@ export const getDeveloper = (companies?: IGDBGame['involved_companies']) => {
 
 export const formatReleaseDate = (releaseDates?: IGDBGame['release_dates']) => {
   if (!releaseDates || releaseDates.length === 0) return 'TBA';
-  const firstRelease = releaseDates[0];
-  return new Date(firstRelease.date * 1000).toLocaleDateString();
+  const firstRelease = releaseDates.find(release => release.date);
+  return firstRelease
+    ? new Date(firstRelease.date * 1000).toLocaleDateString()
+    : 'TBA';
 };
 
 export const getGenres = (genres?: IGDBGame['genres']) => {

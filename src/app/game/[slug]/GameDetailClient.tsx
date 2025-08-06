@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { LuCalendar, LuPuzzle, LuStar } from 'react-icons/lu';
 
 import { useAppStore } from '@/app/store';
@@ -16,6 +17,11 @@ interface GameDetailClientProps {
 
 export default function GameDetailClient({ game }: GameDetailClientProps) {
   const { addToFavorite, isFavorite, removeFromFavorite } = useAppStore();
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const handleAddToFavorite = (game: ProcessedGame) => {
     addToFavorite(game);
@@ -32,7 +38,9 @@ export default function GameDetailClient({ game }: GameDetailClientProps) {
           className="overflow-hidden rounded-lg bg-gray-200 object-cover"
           width={170}
           height={226}
-          src={game.coverImage}
+          src={
+            game.cover ? getCoverImage(game.cover) : '/cover-placeholder.svg'
+          }
           alt={`${game.name} Cover`}
           placeholder="empty"
           priority
@@ -45,7 +53,9 @@ export default function GameDetailClient({ game }: GameDetailClientProps) {
         </div>
       </div>
 
-      {isFavorite(game.slug!) ? (
+      {!isHydrated ? (
+        <Button variant="primary">Collect game</Button>
+      ) : isFavorite(game.slug!) ? (
         <Button onClick={() => handleRemoveFromFavorite(game)} variant="light">
           Game collected
         </Button>
@@ -99,12 +109,22 @@ export default function GameDetailClient({ game }: GameDetailClientProps) {
           </h2>
           <div className="grid grid-cols-3 gap-2 md:grid-cols-4">
             {game.similar_games.slice(0, 6).map(game => (
-              <Link key={game.slug} href={`/game/${game.slug}`}>
+              <Link
+                key={game.slug}
+                href={`/game/${game.slug}`}
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              >
                 <Image
                   width={300}
                   height={400}
                   className="overflow-hidden rounded-lg object-cover"
-                  src={getCoverImage(game.cover)}
+                  src={
+                    game.cover
+                      ? getCoverImage(game.cover)
+                      : '/cover-placeholder.svg'
+                  }
                   alt={`${game.name} Cover`}
                 />
               </Link>

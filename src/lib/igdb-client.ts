@@ -14,7 +14,7 @@ async function igdbFetch(endpoint: string, body: string): Promise<Response> {
     },
     body,
     next: {
-      revalidate: 3600, // 1 hour cache
+      revalidate: 3600,
       tags: [`igdb-${endpoint}`],
     },
   });
