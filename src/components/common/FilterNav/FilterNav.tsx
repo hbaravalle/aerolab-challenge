@@ -2,20 +2,17 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { useAppStore } from '@/app/store';
 import FilterButton from '@/components/ui/FilterButton';
 import { FilterOption } from '@/types';
 
 interface FilterNavProps {
-  defaultFilter?: FilterOption;
   onFilterChange?: (filter: FilterOption) => void;
   ariaControls?: string;
 }
 
-export default function FilterNav({
-  defaultFilter = 'last-added',
-  onFilterChange,
-  ariaControls,
-}: FilterNavProps) {
+export default function FilterNav({ ariaControls }: FilterNavProps) {
+  const { setActiveFilter, activeFilter } = useAppStore(state => state);
   const [isSticky, setIsSticky] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
@@ -39,12 +36,6 @@ export default function FilterNav({
     };
   }, []);
 
-  const handleFilterChange = (filter: FilterOption) => {
-    console.warn('handleFilterChange', filter);
-    console.warn('defaultFilter', defaultFilter);
-    console.warn('onFilterChange', onFilterChange);
-  };
-
   return (
     <>
       <div ref={sentinelRef} className="h-2 w-full bg-transparent" />
@@ -58,28 +49,32 @@ export default function FilterNav({
             isSticky && 'mx-auto'
           }`}
         >
-          <li role="presentation">
+          <li>
             <FilterButton
-              isActive={true}
-              onClick={() => handleFilterChange('last-added')}
+              isActive={activeFilter === 'last-added'}
+              onClick={() => setActiveFilter('last-added')}
               aria-controls={ariaControls}
-              aria-selected={true}
+              aria-selected={activeFilter === 'last-added'}
             >
               Last added
             </FilterButton>
+          </li>
+          <li>
             <FilterButton
-              isActive={false}
-              onClick={() => handleFilterChange('newest')}
+              isActive={activeFilter === 'newest'}
+              onClick={() => setActiveFilter('newest')}
               aria-controls={ariaControls}
-              aria-selected={false}
+              aria-selected={activeFilter === 'newest'}
             >
               Newest
             </FilterButton>
+          </li>
+          <li>
             <FilterButton
-              isActive={false}
-              onClick={() => handleFilterChange('oldest')}
+              isActive={activeFilter === 'oldest'}
+              onClick={() => setActiveFilter('oldest')}
               aria-controls={ariaControls}
-              aria-selected={false}
+              aria-selected={activeFilter === 'oldest'}
             >
               Oldest
             </FilterButton>

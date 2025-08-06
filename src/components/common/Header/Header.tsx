@@ -3,18 +3,52 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { LuArrowLeft, LuSearch, LuX } from 'react-icons/lu';
+
+import { ProcessedGame } from '@/types';
+import { getCoverImage } from '@/utils/game';
 
 export default function Header() {
   const params = useParams();
   const router = useRouter();
 
   const [search, setSearch] = useState('');
+  const [popularGames, setPopularGames] = useState<ProcessedGame[]>([]);
   const [searchIsFocused, setSearchIsFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const blurTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const isGameDetailPage = Boolean(params?.slug);
   const handleGoBack = () => router.push('/');
+
+  const getPopularGames = async () => {
+    try {
+      const response = await fetch('/api/games/popular?limit=5');
+      if (!response.ok) {
+        throw new Error('Failed to fetch popular games');
+      }
+      const data = await response.json();
+      setPopularGames(data);
+    } catch (err) {
+      console.error(err);
+      setPopularGames([]);
+    }
+  };
+
+  useEffect(() => {
+    if (document.activeElement === inputRef.current) {
+      setSearchIsFocused(true);
+    }
+    getPopularGames();
+
+    return () => {
+      if (blurTimeoutRef.current) {
+        clearTimeout(blurTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <header
@@ -40,10 +74,10 @@ export default function Header() {
             src="/logo.svg"
             width={24}
             height={24}
-            alt="Logo Gaming Heaven Z"
+            alt="Logo Gaming Haven Z"
           />
           <span className="text-h1 md:text-h1-desktop bg-gradient-linear bg-clip-text text-transparent">
-            Gaming Heaven Z
+            Gaming Haven Z
           </span>
         </Link>
       )}
@@ -62,6 +96,7 @@ export default function Header() {
             strokeWidth={3}
           />
           <input
+            ref={inputRef}
             type="text"
             name="search"
             id="search"
@@ -69,8 +104,17 @@ export default function Header() {
             className="placeholder-opacity-100 w-full text-black placeholder-pink-200 transition-colors outline-none focus:text-black"
             value={search}
             onInput={e => setSearch(e.currentTarget.value)}
-            onFocus={() => setSearchIsFocused(true)}
-            onBlur={() => setSearchIsFocused(false)}
+            onFocus={() => {
+              if (blurTimeoutRef.current) {
+                clearTimeout(blurTimeoutRef.current);
+              }
+              setSearchIsFocused(true);
+            }}
+            onBlur={() => {
+              blurTimeoutRef.current = setTimeout(() => {
+                setSearchIsFocused(false);
+              }, 150);
+            }}
           />
           {searchIsFocused && (
             <LuX
@@ -83,15 +127,27 @@ export default function Header() {
         {searchIsFocused && (
           <div className="shadow-pink absolute z-20 w-full rounded-b-3xl border-x border-b border-pink-200 bg-white px-2 pt-1.5 pb-2.5">
             <small className="block p-2 text-gray-500">Recommended</small>
-            <div className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:text-violet-600">
-              <Image
-                className="h-[30px] w-[30px] overflow-hidden rounded-sm object-cover object-top"
-                width={30}
-                height={30}
-                src="https://images.igdb.com/igdb/image/upload/t_cover_big/co66n7.jpg"
-                alt=""
-              />
-              <span>Grand Theft Auto San Andreas</span>
+            <div>
+              {popularGames.map(game => (
+                <Link
+                  key={game.id}
+                  href={`/game/${game.slug}`}
+                  className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:text-violet-600"
+                  onClick={() => {
+                    setSearchIsFocused(false);
+                    setSearch('');
+                  }}
+                >
+                  <Image
+                    className="h-[30px] w-[30px] overflow-hidden rounded-sm object-cover object-top"
+                    width={30}
+                    height={30}
+                    src={getCoverImage(game.cover)}
+                    alt=""
+                  />
+                  <span>{game.name}</span>
+                </Link>
+              ))}
             </div>
           </div>
         )}

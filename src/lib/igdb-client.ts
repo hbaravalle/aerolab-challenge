@@ -50,10 +50,17 @@ export async function getPopularGames(limit: number = 5): Promise<IGDBGame[]> {
   try {
     const response = await igdbFetch(
       'games',
-      `fields name, cover.url, rating, slug;
-       where rating > 75;
-       sort rating desc;
-       limit ${limit};`,
+      `fields name, rating, rating_count, aggregated_rating, 
+             aggregated_rating_count, total_rating, total_rating_count,
+             hypes, follows, first_release_date, cover.url, slug;
+      
+      where total_rating > 80 
+        & total_rating_count > 10
+        & rating_count > 500
+        & category = 0;
+      
+      sort total_rating desc;
+      limit ${limit};`,
     );
 
     if (!response.ok) {

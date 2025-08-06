@@ -25,16 +25,16 @@ export async function generateMetadata({
 
   const description = game.summary
     ? game.summary.slice(0, 160) + (game.summary.length > 160 ? '...' : '')
-    : `Discover ${game.name} by ${getDeveloper(game.involved_companies)}. Find game details, ratings, and more on Gaming Heaven Z.`;
+    : `Discover ${game.name} by ${getDeveloper(game.involved_companies)}. Find game details, ratings, and more on Gaming Haven Z.`;
 
   return {
-    title: `${game.name} - Gaming Heaven Z`,
+    title: `${game.name} - Gaming Haven Z`,
     description,
     openGraph: {
       title: game.name,
       description,
       type: 'website',
-      url: `https://gaming-heaven-z.vercel.app/game/${slug}`,
+      url: `https://gaming-haven-z.vercel.app/game/${slug}`,
       images: [
         {
           url: getCoverImage(game.cover),

@@ -120,11 +120,11 @@ body::before {
   top: 0;
   left: 0;
   right: 0;
-  height: 275px;
+  height: 276px;
   background:
     url('/background.svg'),
     linear-gradient(
-      166deg,
+      180deg,
       rgba(255, 0, 174, 0.2) 17.78%,
       rgba(255, 255, 255, 0) 92.83%
     );
@@ -141,13 +141,11 @@ body::before {
       url('/background-desktop.svg'),
       linear-gradient(
         180deg,
-        rgba(255, 0, 174, 0.16) 0%,
-        rgba(255, 255, 255, 0) 100%
+        rgba(255, 0, 174, 0.2) 17.78%,
+        rgba(255, 255, 255, 0) 92.83%
       );
     background-size: cover, 100%;
-    background-position:
-      top center,
-      top center;
+    background-position: bottom center;
     background-repeat: no-repeat, no-repeat;
   }
 }

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { LuCalendar, LuPuzzle, LuStar } from 'react-icons/lu';
 
+import { useAppStore } from '@/app/store';
 import Button from '@/components/ui/Button';
 import Chip from '@/components/ui/Chip';
 import type { ProcessedGame } from '@/types';
@@ -14,15 +15,26 @@ interface GameDetailClientProps {
 }
 
 export default function GameDetailClient({ game }: GameDetailClientProps) {
+  const { addToFavorite, isFavorite, removeFromFavorite } = useAppStore();
+
+  const handleAddToFavorite = (game: ProcessedGame) => {
+    addToFavorite(game);
+  };
+
+  const handleRemoveFromFavorite = (game: ProcessedGame) => {
+    removeFromFavorite(game.slug!);
+  };
+
   return (
     <div className="mb-10 flex flex-col gap-6">
       <div className="flex gap-4">
         <Image
-          className="overflow-hidden rounded-lg object-cover"
+          className="overflow-hidden rounded-lg bg-gray-200 object-cover"
           width={170}
           height={226}
           src={game.coverImage}
           alt={`${game.name} Cover`}
+          placeholder="empty"
           priority
         />
         <div>
@@ -33,7 +45,15 @@ export default function GameDetailClient({ game }: GameDetailClientProps) {
         </div>
       </div>
 
-      <Button>Collect game</Button>
+      {isFavorite(game.slug!) ? (
+        <Button onClick={() => handleRemoveFromFavorite(game)} variant="light">
+          Game collected
+        </Button>
+      ) : (
+        <Button onClick={() => handleAddToFavorite(game)} variant="primary">
+          Collect game
+        </Button>
+      )}
 
       <div className="flex flex-wrap items-center gap-2">
         {game.formattedRating && (

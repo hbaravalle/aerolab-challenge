@@ -27,6 +27,11 @@ export const getPlatforms = (platforms?: IGDBGame['platforms']) => {
   return platforms.map(p => p.name).join(', ');
 };
 
+export const parseReleaseDate = (dateStr: string): Date => {
+  const [day, month, year] = dateStr.split('/');
+  return new Date(Number(year), Number(month) - 1, Number(day));
+};
+
 export const processGameData = (game: IGDBGame) => ({
   ...game,
   coverImage: getCoverImage(game.cover),
