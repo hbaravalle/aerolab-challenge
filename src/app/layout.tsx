@@ -15,26 +15,38 @@ export const metadata: Metadata = {
     canonical: env.SITE_URL,
   },
   title: {
-    default: 'Aerolab Next.js Starter',
-    template: '%s | Aerolab Next.js Starter',
+    default: 'Gaming Haven Z',
+    template: '%s | Gaming Haven Z',
   },
+  description: 'Discover and collect your favorite games.',
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon0.svg', type: 'image/svg+xml' },
+      { url: '/icon1.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
+  manifest: '/manifest.json',
   openGraph: {
-    title: 'Aerolab Next.js Starter',
-    description: 'Next.js starter template by Aerolab',
+    title: 'Gaming Haven Z',
+    description: 'Discover and collect your favorite games.',
     type: 'website',
     locale: 'en_US',
     url: env.SITE_URL,
-    siteName: 'Aerolab Next.js Starter',
+    siteName: 'Gaming Haven Z',
   },
   twitter: {
-    creator: '@aerolab',
-    site: '@aerolab',
+    creator: '@hbaravalle',
+    site: '@gaminghavenZ',
     card: 'summary_large_image',
+    title: 'Gaming Haven Z',
+    description: 'Discover and collect your favorite games.',
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#000000',
+  themeColor: '#6727a6',
 };
 
 export default function RootLayout({
