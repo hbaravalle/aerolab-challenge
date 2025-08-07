@@ -3,12 +3,10 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  /* Typography System - Inter font */
   --font-inter: Inter, sans-serif;
   --font-sans: var(--font-inter), sans-serif;
   --font-mono: var(--font-jetbrains), monospace;
 
-  /* Font Sizes - Mobile first */
   --font-size-h1: 1.25rem;
   --font-weight-h1: 600;
   --font-size-h1-desktop: 1.5rem;
@@ -29,7 +27,6 @@
   --font-weight-h5: 500;
   --font-size-h5-desktop: 0.875rem;
 
-  /* Colors */
   --color-gray-200: #e5e5e5;
   --color-gray-500: #5c5c5c;
 
@@ -46,8 +43,9 @@
   --color-red-600: #d23f63;
   --color-green-600: #67c076;
 
-  /* Gradients */
   --gradient-linear: linear-gradient(to left, #6727a6, #3c1661);
+
+  --custom-cubic-bezier: cubic-bezier(0.36, 0, 0.54, 1);
 }
 
 @utility text-h1 {
@@ -100,12 +98,9 @@
   font-weight: var(--font-weight-h5);
 }
 
-/* Utilities - Gradients */
 @utility bg-gradient-linear {
   background-image: var(--gradient-linear);
 }
-
-/* Utilities - Shadows */
 @utility shadow-pink {
   box-shadow: 0 4px 12px rgba(255, 0, 174, 0.15);
 }
@@ -114,39 +109,43 @@ body {
   position: relative;
 }
 
-body::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 276px;
-  background:
-    url('/background.svg'),
-    linear-gradient(
-      180deg,
-      rgba(255, 0, 174, 0.2) 17.78%,
-      rgba(255, 255, 255, 0) 92.83%
-    );
-
-  background-size: cover, 100%;
-  background-position: top, top;
-  background-repeat: no-repeat, no-repeat;
-  background-color: #ffffff;
-  z-index: -1;
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@media screen and (min-width: 768px) {
-  body::before {
-    background:
-      url('/background-desktop.svg'),
-      linear-gradient(
-        180deg,
-        rgba(255, 0, 174, 0.2) 17.78%,
-        rgba(255, 255, 255, 0) 92.83%
-      );
-    background-size: cover, 100%;
-    background-position: bottom center;
-    background-repeat: no-repeat, no-repeat;
+.fade-in-up {
+  animation: fadeInUp 1000ms var(--custom-cubic-bezier) 1000ms forwards;
+  opacity: 0;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 1000ms var(--custom-cubic-bezier) forwards;
+  opacity: 0;
+}
+
+@keyframes keysSlideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
   }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-keysSlideInUp {
+  animation: keysSlideInUp 800ms ease-out forwards;
+  opacity: 0;
 }

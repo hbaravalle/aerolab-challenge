@@ -26,7 +26,7 @@ export default function SearchInput({ popularGames }: SearchInputProps) {
   } = useSearch();
 
   return (
-    <div className="relative md:mx-auto md:w-sm">
+    <div className="relative w-full md:mx-auto md:w-sm">
       <label
         htmlFor="search"
         className={`${

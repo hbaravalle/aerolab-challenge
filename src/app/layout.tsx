@@ -4,6 +4,7 @@ import { Metadata, Viewport } from 'next/types';
 import { Toaster } from 'react-hot-toast';
 
 import { Header } from '@/components/common/Header';
+import BackgroundKeys from '@/components/ui/BackgroundKeys';
 import { env } from '@/lib/env';
 import { cn } from '@/utils/cn';
 
@@ -44,7 +45,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn(...fontVariables)}>
       <body className="font-sans antialiased">
-        <div className="mx-auto max-w-3xl px-4 pt-8 md:pt-32">
+        <BackgroundKeys />
+        <div className="mx-auto max-w-3xl px-4 pt-8">
           <Header />
           <main>{children}</main>
         </div>
