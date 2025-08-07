@@ -32,7 +32,7 @@ export async function getGameBySlug(slug: string): Promise<IGDBGame | null> {
     const response = await igdbFetch(
       'games',
       `fields name, summary, cover.url, rating, 
-       release_dates.date,
+       first_release_date,
        genres.name, platforms.name,
        involved_companies.company.name, involved_companies.developer,
        similar_games.name, similar_games.slug, similar_games.cover.url,

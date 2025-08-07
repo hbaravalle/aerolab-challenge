@@ -11,12 +11,11 @@ export const getDeveloper = (companies?: IGDBGame['involved_companies']) => {
   return developer?.company.name || companies[0]?.company.name || 'Unknown';
 };
 
-export const formatReleaseDate = (releaseDates?: IGDBGame['release_dates']) => {
-  if (!releaseDates || releaseDates.length === 0) return 'TBA';
-  const firstRelease = releaseDates.find(release => release.date);
-  return firstRelease
-    ? new Date(firstRelease.date * 1000).toLocaleDateString()
-    : 'TBA';
+export const formatReleaseDate = (
+  releaseDates?: IGDBGame['first_release_date'],
+) => {
+  if (!releaseDates) return 'TBA';
+  return new Date(releaseDates * 1000).toLocaleDateString();
 };
 
 export const getGenres = (genres?: IGDBGame['genres']) => {
@@ -29,16 +28,11 @@ export const getPlatforms = (platforms?: IGDBGame['platforms']) => {
   return platforms.map(p => p.name).join(', ');
 };
 
-export const parseReleaseDate = (dateStr: string): Date => {
-  const [day, month, year] = dateStr.split('/');
-  return new Date(Number(year), Number(month) - 1, Number(day));
-};
-
 export const processGameData = (game: IGDBGame) => ({
   ...game,
   coverImage: getCoverImage(game.cover),
   developer: getDeveloper(game.involved_companies),
-  releaseDate: formatReleaseDate(game.release_dates),
+  releaseDate: formatReleaseDate(game['first_release_date']),
   genres: getGenres(game.genres),
   platforms: getPlatforms(game.platforms),
   formattedRating: game.rating ? (game.rating / 10).toFixed(1) : null,

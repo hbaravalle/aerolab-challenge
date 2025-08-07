@@ -6,9 +6,7 @@ export interface IGDBGame {
     url: string;
   };
   rating?: number;
-  release_dates?: Array<{
-    date: number;
-  }>;
+  first_release_date?: number;
   genres?: Array<{
     name: string;
   }>;

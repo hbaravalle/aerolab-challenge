@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { useAppStore } from '@/app/store';
 import FilterNav from '@/components/common/FilterNav';
 import GameCard from '@/components/common/GameCard';
-import { parseReleaseDate } from '@/utils/game';
 
 export default function IndexPage() {
   const { favoriteGames, activeFilter } = useAppStore(state => state);
@@ -17,12 +16,9 @@ export default function IndexPage() {
     }
 
     if (activeFilter === 'newest' || activeFilter === 'oldest') {
-      const dateA = parseReleaseDate(a.releaseDate);
-      const dateB = parseReleaseDate(b.releaseDate);
-
-      return activeFilter === 'newest'
-        ? dateB.getTime() - dateA.getTime()
-        : dateA.getTime() - dateB.getTime();
+      const aDate = a.first_release_date || 0;
+      const bDate = b.first_release_date || 0;
+      return activeFilter === 'newest' ? bDate - aDate : aDate - bDate;
     }
 
     return 0;
