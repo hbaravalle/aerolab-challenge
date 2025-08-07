@@ -21,6 +21,11 @@ export interface IGDBGame {
     };
     developer: boolean;
   }>;
+  screenshots?: Array<{
+    id: number;
+    image_id: string;
+    url: string;
+  }>;
   slug?: string;
   similar_games?: Array<{
     name: string;

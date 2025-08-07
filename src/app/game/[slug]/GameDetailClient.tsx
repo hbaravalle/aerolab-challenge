@@ -1,11 +1,17 @@
 'use client';
 
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { LuCalendar, LuPuzzle, LuStar } from 'react-icons/lu';
 
 import { useAppStore } from '@/app/store';
+import Gallery from '@/components/common/Gallery';
 import Button from '@/components/ui/Button';
 import Chip from '@/components/ui/Chip';
 import type { ProcessedGame } from '@/types';
@@ -99,7 +105,7 @@ export default function GameDetailClient({ game }: GameDetailClientProps) {
 
       <div>
         <h2 className="text-h2 mb-2">Media</h2>
-        {/* TODO: Add media gallery */}
+        <Gallery images={game.screenshots || []} title={game.name} />
       </div>
 
       {game.similar_games && game.similar_games.length > 0 && (
@@ -107,7 +113,7 @@ export default function GameDetailClient({ game }: GameDetailClientProps) {
           <h2 className="text-h2 bg-gradient-linear mb-2 bg-clip-text text-transparent">
             Similar games
           </h2>
-          <div className="grid grid-cols-3 gap-2 md:grid-cols-4">
+          <div className="grid grid-cols-3 gap-2 md:grid-cols-4 md:gap-4">
             {game.similar_games.slice(0, 6).map(game => (
               <Link
                 key={game.slug}

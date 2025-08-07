@@ -132,6 +132,7 @@ body::before {
   background-size: cover, 100%;
   background-position: top, top;
   background-repeat: no-repeat, no-repeat;
+  background: #fff;
   z-index: -1;
 }
 

@@ -2,6 +2,9 @@ import type { IGDBGame } from '@/types';
 
 import { env } from './env';
 
+const gameCache = new Map<string, IGDBGame | null>();
+const MAX_CACHE_SIZE = 20;
+
 const IGDB_BASE_URL = 'https://api.igdb.com/v4';
 
 async function igdbFetch(endpoint: string, body: string): Promise<Response> {
@@ -21,6 +24,10 @@ async function igdbFetch(endpoint: string, body: string): Promise<Response> {
 }
 
 export async function getGameBySlug(slug: string): Promise<IGDBGame | null> {
+  if (gameCache.has(slug)) {
+    return gameCache.get(slug) || null;
+  }
+
   try {
     const response = await igdbFetch(
       'games',
@@ -29,6 +36,7 @@ export async function getGameBySlug(slug: string): Promise<IGDBGame | null> {
        genres.name, platforms.name,
        involved_companies.company.name, involved_companies.developer,
        similar_games.name, similar_games.slug, similar_games.cover.url,
+       screenshots.url,screenshots.image_id,
        slug;
        where slug = "${slug}";
        limit 1;`,
@@ -39,7 +47,15 @@ export async function getGameBySlug(slug: string): Promise<IGDBGame | null> {
     }
 
     const games = await response.json();
-    return games.length > 0 ? games[0] : null;
+    const game = games.length > 0 ? games[0] : null;
+
+    if (gameCache.size >= MAX_CACHE_SIZE) {
+      const firstKey = gameCache.keys().next().value;
+      gameCache.delete(firstKey || '');
+    }
+
+    gameCache.set(slug, game);
+    return game;
   } catch (error) {
     console.error('Error fetching game from IGDB:', error);
     return null;

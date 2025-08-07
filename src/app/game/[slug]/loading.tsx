@@ -39,6 +39,13 @@ export default function GameDetailLoading() {
       {/* Media section */}
       <div>
         <div className="mb-2 h-7 w-16 rounded bg-gray-300" />
+        <div className="grid grid-cols-4 gap-2 md:grid-cols-5 md:gap-4">
+          <div className="aspect-[1/1] rounded-lg bg-gray-300" />
+          <div className="aspect-[1/1] rounded-lg bg-gray-300" />
+          <div className="aspect-[1/1] rounded-lg bg-gray-300" />
+          <div className="aspect-[1/1] rounded-lg bg-gray-300" />
+          <div className="hidden aspect-[1/1] rounded-lg bg-gray-300 md:block" />
+        </div>
       </div>
 
       {/* Similar games section */}
