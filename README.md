@@ -2,6 +2,8 @@
 
 Gaming Haven Z is modern, responsive web application for discovering and collecting your favorite video games. Built for the Aerolab Frontend Challenge with Next.js 15 and powered by the IGDB API.
 
+**🚀 [Live Demo](https://aerolab-challenge-beta-ten.vercel.app/)**
+
 > [!NOTE]
 > This project was built following the [Figma design specifications](https://www.figma.com/design/3O7BxHFnSSawJeny3lXWkE/Aerolab-Frontend-Developer-Coding-Challenge---Public?node-id=16996-5165&t=uLiMR18T28Jegm4s-4) with mobile-first responsive design.
 
