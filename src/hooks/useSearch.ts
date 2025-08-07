@@ -7,10 +7,12 @@ import { useSearchDropdown } from './useSearchDropdown';
 export function useSearch() {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState<ProcessedGame[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const clearSearch = useCallback(() => {
     setSearch('');
     setSearchResults([]);
+    setIsSearching(false);
   }, []);
 
   const clearSearchResults = useCallback(() => {
@@ -24,6 +26,7 @@ export function useSearch() {
   useEffect(() => {
     if (!search.trim()) {
       setSearchResults([]);
+      setIsSearching(false);
       return;
     }
 
@@ -41,9 +44,11 @@ export function useSearch() {
       }
     };
 
+    setIsSearching(true);
     const timer = setTimeout(async () => {
       const results = await searchGames(search);
       setSearchResults(results);
+      setIsSearching(false);
     }, 300);
 
     return () => clearTimeout(timer);
@@ -53,6 +58,7 @@ export function useSearch() {
     search,
     setSearch,
     searchResults,
+    isSearching,
     clearSearchResults,
     clearSearch,
 

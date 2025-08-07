@@ -7,6 +7,7 @@ import { getCoverImage } from '@/utils/game';
 interface SearchDropdownProps {
   isOpen: boolean;
   searchResults: ProcessedGame[];
+  isSearching: boolean;
   popularGames: ProcessedGame[];
   onResultClick: () => void;
   searchQuery: string;
@@ -15,13 +16,24 @@ interface SearchDropdownProps {
 export default function SearchDropdown({
   isOpen,
   searchResults,
+  isSearching,
   popularGames,
   onResultClick,
   searchQuery,
 }: SearchDropdownProps) {
   if (!isOpen) return null;
 
-  if (searchResults.length === 0 && searchQuery.length > 0) {
+  if (isSearching && searchQuery.length > 0) {
+    return (
+      <div className="shadow-pink absolute z-20 w-full rounded-b-3xl border-x border-b border-pink-200 bg-white px-2 pt-1.5 pb-2.5">
+        <small className="block px-3 py-2 pt-3 text-gray-500">
+          Searching...
+        </small>
+      </div>
+    );
+  }
+
+  if (searchResults.length === 0 && searchQuery.length > 0 && !isSearching) {
     return (
       <div className="shadow-pink absolute z-20 w-full rounded-b-3xl border-x border-b border-pink-200 bg-white px-2 pt-1.5 pb-2.5">
         <small className="block px-3 py-2 pt-3 text-gray-500">

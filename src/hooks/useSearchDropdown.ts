@@ -35,7 +35,18 @@ export function useSearchDropdown({ clearSearch }: UseSearchDropdownProps) {
   };
 
   const handleResultClick = () => {
-    clearSearch();
+    // Close immediately to prevent visual shift
+    setIsOpen(false);
+
+    // Clear blur timeout if pending
+    if (blurTimeoutRef.current) {
+      clearTimeout(blurTimeoutRef.current);
+    }
+
+    // Clear search after tiny delay to allow navigation
+    setTimeout(() => {
+      clearSearch();
+    }, 10);
   };
 
   useEffect(() => {

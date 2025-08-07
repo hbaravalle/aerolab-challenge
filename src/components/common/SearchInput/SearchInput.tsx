@@ -16,6 +16,7 @@ export default function SearchInput({ popularGames }: SearchInputProps) {
     search,
     setSearch,
     searchResults,
+    isSearching,
     searchIsFocused,
     handleClearSearch,
     handleResultClick,
@@ -66,6 +67,7 @@ export default function SearchInput({ popularGames }: SearchInputProps) {
         isOpen={searchIsFocused}
         searchQuery={search}
         searchResults={searchResults}
+        isSearching={isSearching}
         popularGames={popularGames}
         onResultClick={handleResultClick}
       />
