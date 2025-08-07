@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from 'react-hot-toast';
 import { LuTrash } from 'react-icons/lu';
 
 import { useAppStore } from '@/app/store';
@@ -34,6 +35,26 @@ export default function GameCard({ game }: GameCardProps) {
           event.preventDefault();
           event.stopPropagation();
           removeFromFavorite(game.slug!);
+          toast(
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <LuTrash strokeWidth={2.5} className="h-4 w-4 text-red-500" />
+                <span className="text-h2 text-gray-900">Game removed</span>
+              </div>
+              <span className="text-sm text-gray-600">
+                {game.name} has been removed from your collection
+              </span>
+            </div>,
+            {
+              duration: 3000,
+              style: {
+                width: '100%',
+                border: '1px solid #D23F63',
+                padding: '12px 6px',
+                boxShadow: '0 16px 24px 0 rgba(0, 0, 0, 0.24)',
+              },
+            },
+          );
         }}
       >
         <LuTrash strokeWidth={3} />

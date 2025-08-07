@@ -1,6 +1,7 @@
 import './globals.css';
 
 import { Metadata, Viewport } from 'next/types';
+import { Toaster } from 'react-hot-toast';
 
 import { Header } from '@/components/common/Header';
 import { env } from '@/lib/env';
@@ -47,6 +48,11 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
         </div>
+        <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          containerStyle={{ bottom: '26px' }}
+        />
       </body>
     </html>
   );
