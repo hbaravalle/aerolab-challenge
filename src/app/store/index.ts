@@ -9,6 +9,7 @@ export const useAppStore = create<AppStore>()(
       favoriteGames: {},
       activeFilter: 'last-added',
       popularGames: [],
+      isLoadingPopularGames: false,
 
       addToFavorite: game => {
         set(state => ({
@@ -42,6 +43,7 @@ export const useAppStore = create<AppStore>()(
         set({ popularGames: games });
       },
       fetchPopularGames: async () => {
+        set({ isLoadingPopularGames: true });
         try {
           const response = await fetch('/api/games/popular?limit=5');
           if (!response.ok) {
@@ -52,6 +54,8 @@ export const useAppStore = create<AppStore>()(
         } catch (err) {
           console.error(err);
           get().setPopularGames([]);
+        } finally {
+          set({ isLoadingPopularGames: false });
         }
       },
     }),
