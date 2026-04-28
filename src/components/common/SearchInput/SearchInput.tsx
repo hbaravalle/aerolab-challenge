@@ -9,9 +9,13 @@ import SearchDropdown from '../SearchDropdown/SearchDropdown';
 
 interface SearchInputProps {
   popularGames: ProcessedGame[];
+  isLoadingPopularGames: boolean;
 }
 
-export default function SearchInput({ popularGames }: SearchInputProps) {
+export default function SearchInput({
+  popularGames,
+  isLoadingPopularGames,
+}: SearchInputProps) {
   const {
     search,
     setSearch,
@@ -69,6 +73,7 @@ export default function SearchInput({ popularGames }: SearchInputProps) {
         searchResults={searchResults}
         isSearching={isSearching}
         popularGames={popularGames}
+        isLoadingPopularGames={isLoadingPopularGames}
         onResultClick={handleResultClick}
       />
     </div>

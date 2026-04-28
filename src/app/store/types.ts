@@ -5,6 +5,7 @@ export interface AppStoreState {
   favoriteGames: Record<string, ProcessedGame & { savedAt: number }>;
   activeFilter: FilterOption;
   popularGames: ProcessedGame[];
+  isLoadingPopularGames: boolean;
 }
 
 export interface AppStoreActions {

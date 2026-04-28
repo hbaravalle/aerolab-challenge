@@ -9,6 +9,7 @@ interface SearchDropdownProps {
   searchResults: ProcessedGame[];
   isSearching: boolean;
   popularGames: ProcessedGame[];
+  isLoadingPopularGames: boolean;
   onResultClick: () => void;
   searchQuery: string;
 }
@@ -18,6 +19,7 @@ export default function SearchDropdown({
   searchResults,
   isSearching,
   popularGames,
+  isLoadingPopularGames,
   onResultClick,
   searchQuery,
 }: SearchDropdownProps) {
@@ -47,29 +49,33 @@ export default function SearchDropdown({
     return (
       <div className="shadow-pink absolute z-20 w-full rounded-b-3xl border-x border-b border-pink-200 bg-white px-2 pt-1.5 pb-2.5">
         <small className="block p-2 text-gray-500">Recommended</small>
-        <div>
-          {popularGames.map(game => (
-            <Link
-              key={game.id}
-              href={`/game/${game.slug}`}
-              className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:text-violet-600"
-              onClick={onResultClick}
-            >
-              <Image
-                className="h-[30px] w-[30px] overflow-hidden rounded-sm object-cover object-top"
-                width={30}
-                height={30}
-                src={
-                  game.cover
-                    ? getCoverImage(game.cover)
-                    : '/cover-placeholder.svg'
-                }
-                alt=""
-              />
-              <span>{game.name}</span>
-            </Link>
-          ))}
-        </div>
+        {isLoadingPopularGames ? (
+          <small className="block px-3 py-2 text-gray-400">Loading...</small>
+        ) : (
+          <div>
+            {popularGames.map(game => (
+              <Link
+                key={game.id}
+                href={`/game/${game.slug}`}
+                className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:text-violet-600"
+                onClick={onResultClick}
+              >
+                <Image
+                  className="h-[30px] w-[30px] overflow-hidden rounded-sm object-cover object-top"
+                  width={30}
+                  height={30}
+                  src={
+                    game.cover
+                      ? getCoverImage(game.cover)
+                      : '/cover-placeholder.svg'
+                  }
+                  alt=""
+                />
+                <span>{game.name}</span>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     );
   }

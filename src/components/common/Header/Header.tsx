@@ -12,7 +12,8 @@ import SearchInput from '@/components/common/SearchInput';
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
-  const { popularGames, fetchPopularGames } = useAppStore();
+  const { popularGames, fetchPopularGames, isLoadingPopularGames } =
+    useAppStore();
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const isGameDetailPage = pathname?.includes('/game/');
@@ -75,7 +76,10 @@ export default function Header() {
             Back
           </span>
         </button>
-        <SearchInput popularGames={popularGames} />
+        <SearchInput
+          popularGames={popularGames}
+          isLoadingPopularGames={isLoadingPopularGames}
+        />
       </div>
     </header>
   );
