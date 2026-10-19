@@ -21,6 +21,7 @@ export default function SearchInput({
     setSearch,
     searchResults,
     isSearching,
+    searchError,
     searchIsFocused,
     handleClearSearch,
     handleResultClick,
@@ -72,6 +73,7 @@ export default function SearchInput({
         searchQuery={search}
         searchResults={searchResults}
         isSearching={isSearching}
+        searchError={searchError}
         popularGames={popularGames}
         isLoadingPopularGames={isLoadingPopularGames}
         onResultClick={handleResultClick}

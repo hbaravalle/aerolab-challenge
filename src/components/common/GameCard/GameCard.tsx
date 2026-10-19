@@ -6,11 +6,11 @@ import { toast } from 'react-hot-toast';
 import { LuTrash } from 'react-icons/lu';
 
 import { useAppStore } from '@/app/store';
-import { ProcessedGame } from '@/types';
+import type { FavoriteGame } from '@/app/store/types';
 import { getCoverImage } from '@/utils/game';
 
 interface GameCardProps {
-  game: ProcessedGame;
+  game: FavoriteGame;
 }
 
 export default function GameCard({ game }: GameCardProps) {

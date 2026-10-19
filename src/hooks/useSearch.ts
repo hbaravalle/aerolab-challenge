@@ -8,6 +8,7 @@ export function useSearch() {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState<ProcessedGame[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [searchError, setSearchError] = useState(false);
 
   const clearSearch = useCallback(() => {
     setSearch('');
@@ -24,34 +25,42 @@ export function useSearch() {
   });
 
   useEffect(() => {
+    setSearchError(false);
+
     if (!search.trim()) {
       setSearchResults([]);
       setIsSearching(false);
       return;
     }
 
+    // Aborts the in-flight request when the query changes, so a slow
+    // response for an old query can't overwrite newer results
+    const controller = new AbortController();
+
     const searchGames = async (query: string) => {
       try {
         const response = await fetch(
           `/api/games/search?query=${encodeURIComponent(query)}&limit=10`,
+          { signal: controller.signal },
         );
         if (!response.ok) throw new Error('Search failed');
-        const data = await response.json();
-        return data;
+        setSearchResults(await response.json());
       } catch (error) {
+        if (controller.signal.aborted) return;
         console.error('Search error:', error);
-        return [];
+        setSearchResults([]);
+        setSearchError(true);
       }
+      setIsSearching(false);
     };
 
     setIsSearching(true);
-    const timer = setTimeout(async () => {
-      const results = await searchGames(search);
-      setSearchResults(results);
-      setIsSearching(false);
-    }, 300);
+    const timer = setTimeout(() => searchGames(search), 300);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
   }, [search]);
 
   return {
@@ -59,6 +68,7 @@ export function useSearch() {
     setSearch,
     searchResults,
     isSearching,
+    searchError,
     clearSearchResults,
     clearSearch,
 

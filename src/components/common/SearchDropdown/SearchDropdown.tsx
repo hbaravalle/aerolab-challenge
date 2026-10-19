@@ -8,6 +8,7 @@ interface SearchDropdownProps {
   isOpen: boolean;
   searchResults: ProcessedGame[];
   isSearching: boolean;
+  searchError: boolean;
   popularGames: ProcessedGame[];
   isLoadingPopularGames: boolean;
   onResultClick: () => void;
@@ -18,6 +19,7 @@ export default function SearchDropdown({
   isOpen,
   searchResults,
   isSearching,
+  searchError,
   popularGames,
   isLoadingPopularGames,
   onResultClick,
@@ -30,6 +32,16 @@ export default function SearchDropdown({
       <div className="shadow-pink absolute z-20 w-full rounded-b-3xl border-x border-b border-pink-200 bg-white px-2 pt-1.5 pb-2.5">
         <small className="block px-3 py-2 pt-3 text-gray-500">
           Searching...
+        </small>
+      </div>
+    );
+  }
+
+  if (searchError && searchQuery.length > 0) {
+    return (
+      <div className="shadow-pink absolute z-20 w-full rounded-b-3xl border-x border-b border-pink-200 bg-white px-2 pt-1.5 pb-2.5">
+        <small className="block px-3 py-2 pt-3 text-gray-500">
+          Search is unavailable right now. Please try again later.
         </small>
       </div>
     );
