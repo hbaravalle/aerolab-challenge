@@ -18,12 +18,9 @@ export const env = createEnv({
     IGDB_CLIENT_ID: z.string(),
     IGDB_CLIENT_SECRET: z.string(),
   },
-  client: {
-    NEXT_PUBLIC_GA_MEASUREMENT_ID: z.string().optional(),
-  },
+  client: {},
   // For Next.js >= 13.4.4, you only need to destructure client variables:
   experimental__runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
-    NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
   },
 });
