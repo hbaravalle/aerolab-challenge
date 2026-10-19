@@ -6,21 +6,73 @@ const gameCache = new Map<string, IGDBGame | null>();
 const MAX_CACHE_SIZE = 20;
 
 const IGDB_BASE_URL = 'https://api.igdb.com/v4';
+const TWITCH_TOKEN_URL = 'https://id.twitch.tv/oauth2/token';
+// Renew the token a bit before Twitch expires it
+const TOKEN_EXPIRY_MARGIN_MS = 60 * 60 * 1000;
+
+let cachedToken: { value: string; expiresAt: number } | null = null;
+let pendingToken: Promise<string> | null = null;
+
+async function requestAccessToken(): Promise<string> {
+  const params = new URLSearchParams({
+    client_id: env.IGDB_CLIENT_ID,
+    client_secret: env.IGDB_CLIENT_SECRET,
+    grant_type: 'client_credentials',
+  });
+
+  const response = await fetch(`${TWITCH_TOKEN_URL}?${params}`, {
+    method: 'POST',
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Twitch token error: ${response.status}`);
+  }
+
+  const { access_token, expires_in } = await response.json();
+  cachedToken = {
+    value: access_token,
+    expiresAt: Date.now() + expires_in * 1000 - TOKEN_EXPIRY_MARGIN_MS,
+  };
+  return access_token;
+}
+
+async function getAccessToken(forceRefresh = false): Promise<string> {
+  if (!forceRefresh && cachedToken && Date.now() < cachedToken.expiresAt) {
+    return cachedToken.value;
+  }
+
+  // Share a single in-flight request between concurrent callers
+  pendingToken ??= requestAccessToken().finally(() => {
+    pendingToken = null;
+  });
+  return pendingToken;
+}
 
 async function igdbFetch(endpoint: string, body: string): Promise<Response> {
-  return fetch(`${IGDB_BASE_URL}/${endpoint}`, {
-    method: 'POST',
-    headers: {
-      'Client-ID': env.IGDB_CLIENT_ID,
-      Authorization: `Bearer ${env.IGDB_ACCESS_TOKEN}`,
-      'Content-Type': 'text/plain',
-    },
-    body,
-    next: {
-      revalidate: 3600,
-      tags: [`igdb-${endpoint}`],
-    },
-  });
+  const doFetch = (token: string) =>
+    fetch(`${IGDB_BASE_URL}/${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Client-ID': env.IGDB_CLIENT_ID,
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'text/plain',
+      },
+      body,
+      next: {
+        revalidate: 3600,
+        tags: [`igdb-${endpoint}`],
+      },
+    });
+
+  const response = await doFetch(await getAccessToken());
+
+  // Token revoked or expired early: refresh once and retry
+  if (response.status === 401) {
+    return doFetch(await getAccessToken(true));
+  }
+
+  return response;
 }
 
 export async function getGameBySlug(slug: string): Promise<IGDBGame | null> {

@@ -8,7 +8,7 @@ export const env = createEnv({
   server: {
     SITE_URL: z.string().default('https://starter.coolify.aerolab.dev/'),
     IGDB_CLIENT_ID: z.string(),
-    IGDB_ACCESS_TOKEN: z.string(),
+    IGDB_CLIENT_SECRET: z.string(),
   },
   client: {
     NEXT_PUBLIC_GA_MEASUREMENT_ID: z.string().optional(),
