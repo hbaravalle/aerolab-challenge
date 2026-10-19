@@ -1,7 +1,14 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import { AppStore } from './types';
+import { FilterOption } from '@/types/filters';
+
+import { AppStore, FavoriteGame } from './types';
+
+const toFavoriteGame = (
+  { slug, name, cover, first_release_date }: Omit<FavoriteGame, 'savedAt'>,
+  savedAt: number,
+): FavoriteGame => ({ slug, name, cover, first_release_date, savedAt });
 
 export const useAppStore = create<AppStore>()(
   persist(
@@ -15,10 +22,10 @@ export const useAppStore = create<AppStore>()(
         set(state => ({
           favoriteGames: {
             ...state.favoriteGames,
-            [game.slug!]: {
-              ...game,
-              savedAt: Date.now(),
-            },
+            [game.slug!]: toFavoriteGame(
+              { ...game, slug: game.slug! },
+              Date.now(),
+            ),
           },
         }));
       },
@@ -62,11 +69,29 @@ export const useAppStore = create<AppStore>()(
     {
       name: 'gaming-haven-z-store',
       storage: createJSONStorage(() => localStorage),
+      // Popular games are not persisted: the API response is already cached
+      // and persisting them would freeze the recommendations for returning users
       partialize: state => ({
         favoriteGames: state.favoriteGames,
         activeFilter: state.activeFilter,
-        popularGames: state.popularGames,
       }),
+      version: 1,
+      migrate: persisted => {
+        // v0 stored full game objects and the popular games list
+        const { favoriteGames = {}, activeFilter } = persisted as {
+          favoriteGames?: Record<string, FavoriteGame>;
+          activeFilter?: FilterOption;
+        };
+        return {
+          activeFilter: activeFilter ?? 'last-added',
+          favoriteGames: Object.fromEntries(
+            Object.entries(favoriteGames).map(([slug, game]) => [
+              slug,
+              toFavoriteGame({ ...game, slug }, game.savedAt),
+            ]),
+          ),
+        } as AppStore;
+      },
     },
   ),
 );

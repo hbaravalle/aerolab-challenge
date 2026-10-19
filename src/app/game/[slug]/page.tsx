@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
+import { env } from '@/lib/env';
 import { getGameBySlug } from '@/lib/igdb-client';
 import { getCoverImage, getDeveloper, processGameData } from '@/utils/game';
 
@@ -35,13 +36,13 @@ export async function generateMetadata({
     : `Discover ${game.name} by ${getDeveloper(game.involved_companies)}. Find game details, ratings, and more on Gaming Haven Z.`;
 
   return {
-    title: `${game.name} - Gaming Haven Z`,
+    title: game.name,
     description,
     openGraph: {
       title: game.name,
       description,
       type: 'website',
-      url: `https://gaming-haven-z.vercel.app/game/${slug}`,
+      url: new URL(`/game/${slug}`, env.SITE_URL).toString(),
       images: [
         {
           url: getCoverImage(game.cover),

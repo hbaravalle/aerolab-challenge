@@ -123,7 +123,7 @@ Gaming Haven Z is modern, responsive web application for discovering and collect
 
    ```env
    IGDB_CLIENT_ID=your_client_id
-   IGDB_ACCESS_TOKEN=your_access_token
+   IGDB_CLIENT_SECRET=your_client_secret
    SITE_URL=http://localhost:3000
    ```
 
@@ -140,8 +140,10 @@ Gaming Haven Z is modern, responsive web application for discovering and collect
 
 1. Register at [IGDB](https://api.igdb.com/)
 2. Create a Twitch application
-3. Get your Client ID and Access Token
+3. Get your Client ID and Client Secret
 4. Add credentials to your environment variables
+
+The app requests the Twitch access token itself and renews it automatically when it expires.
 
 ## 📁 Project Structure
 
