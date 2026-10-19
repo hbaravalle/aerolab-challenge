@@ -146,11 +146,19 @@ export async function searchGames(
   query: string,
   limit: number = 10,
 ): Promise<IGDBGame[]> {
+  // IGDB's `search` only matches whole words ("zeld" finds nothing), so match
+  // each typed word as a case-insensitive substring of the name instead
+  const nameFilters = query
+    .trim()
+    .split(/\s+/)
+    .map(word => `name ~ *"${escapeQueryString(word)}"*`)
+    .join(' & ');
+
   return igdbQuery<IGDBGame[]>(
     'games',
     `fields name, cover.url, rating, slug;
-     search "${escapeQueryString(query)}";
-     where rating != null;
+     where ${nameFilters} & rating != null;
+     sort rating_count desc;
      limit ${limit};`,
   );
 }

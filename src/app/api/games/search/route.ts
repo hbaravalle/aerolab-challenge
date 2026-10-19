@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = request.nextUrl;
     const query = searchParams.get('query');
     const limitParam = searchParams.get('limit');
-    if (!query) {
+    if (!query?.trim()) {
       return NextResponse.json(
         { error: 'Query parameter is required' },
         { status: 400 },

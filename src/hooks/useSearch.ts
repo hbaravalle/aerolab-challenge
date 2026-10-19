@@ -21,6 +21,7 @@ export function useSearch() {
   }, []);
 
   const dropdown = useSearchDropdown({
+    hasQuery: search.length > 0,
     clearSearch,
   });
 

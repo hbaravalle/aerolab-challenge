@@ -1,11 +1,20 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { LuSearch, LuX } from 'react-icons/lu';
 
 import { useSearch } from '@/hooks/useSearch';
 import { ProcessedGame } from '@/types';
 
-import SearchDropdown from '../SearchDropdown/SearchDropdown';
+import SearchDropdown, {
+  getSearchOptionId,
+  SEARCH_LISTBOX_ID,
+  SearchDropdownView,
+} from '../SearchDropdown/SearchDropdown';
+
+// Stable reference so the active option resets only when the list changes
+const NO_ITEMS: ProcessedGame[] = [];
 
 interface SearchInputProps {
   popularGames: ProcessedGame[];
@@ -16,6 +25,7 @@ export default function SearchInput({
   popularGames,
   isLoadingPopularGames,
 }: SearchInputProps) {
+  const router = useRouter();
   const {
     search,
     setSearch,
@@ -30,6 +40,46 @@ export default function SearchInput({
     handleKeyDown,
     inputRef,
   } = useSearch();
+
+  let view: SearchDropdownView = 'recommended';
+  if (search.trim()) {
+    if (isSearching) view = 'searching';
+    else if (searchError) view = 'error';
+    else view = searchResults.length > 0 ? 'results' : 'empty';
+  }
+
+  let items = NO_ITEMS;
+  if (view === 'results') items = searchResults;
+  if (view === 'recommended' && !isLoadingPopularGames) items = popularGames;
+
+  // The highlighted option belongs to a specific list: when the list changes
+  // (new results, recommendations loaded) nothing is highlighted
+  const [active, setActive] = useState({ items, index: -1 });
+  const activeIndex = active.items === items ? active.index : -1;
+  const setActiveIndex = (index: number) => setActive({ items, index });
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (searchIsFocused && items.length > 0) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setActiveIndex((activeIndex + 1) % items.length);
+        return;
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActiveIndex(activeIndex <= 0 ? items.length - 1 : activeIndex - 1);
+        return;
+      }
+      if (e.key === 'Enter' && activeIndex >= 0) {
+        e.preventDefault();
+        router.push(`/game/${items[activeIndex].slug}`);
+        handleResultClick();
+        inputRef.current?.blur();
+        return;
+      }
+    }
+    handleKeyDown(e);
+  };
 
   return (
     <div className="relative w-full md:mx-auto md:w-sm">
@@ -52,12 +102,19 @@ export default function SearchInput({
           id="search"
           placeholder="Search games..."
           autoComplete="off"
+          role="combobox"
+          aria-expanded={searchIsFocused}
+          aria-controls={SEARCH_LISTBOX_ID}
+          aria-autocomplete="list"
+          aria-activedescendant={
+            activeIndex >= 0 ? getSearchOptionId(activeIndex) : undefined
+          }
           className="placeholder-opacity-100 w-full text-black placeholder-pink-200 transition-colors outline-none focus:text-black"
           value={search}
           onInput={e => setSearch(e.currentTarget.value)}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          onKeyDown={handleKeyDown}
+          onKeyDown={handleInputKeyDown}
         />
         {searchIsFocused && search.length > 0 && (
           <LuX
@@ -70,12 +127,11 @@ export default function SearchInput({
 
       <SearchDropdown
         isOpen={searchIsFocused}
-        searchQuery={search}
-        searchResults={searchResults}
-        isSearching={isSearching}
-        searchError={searchError}
-        popularGames={popularGames}
+        view={view}
+        items={items}
         isLoadingPopularGames={isLoadingPopularGames}
+        activeIndex={activeIndex}
+        onActiveIndexChange={setActiveIndex}
         onResultClick={handleResultClick}
       />
     </div>

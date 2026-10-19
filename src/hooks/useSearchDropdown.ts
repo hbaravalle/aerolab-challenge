@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
 interface UseSearchDropdownProps {
+  hasQuery: boolean;
   clearSearch: () => void;
 }
 
-export function useSearchDropdown({ clearSearch }: UseSearchDropdownProps) {
+export function useSearchDropdown({
+  hasQuery,
+  clearSearch,
+}: UseSearchDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const blurTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -28,7 +32,12 @@ export function useSearchDropdown({ clearSearch }: UseSearchDropdownProps) {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
+    if (e.key !== 'Escape') return;
+
+    // First Escape clears the query (keeping focus), second one leaves the input
+    if (hasQuery) {
+      clearSearch();
+    } else {
       setIsOpen(false);
       inputRef.current?.blur();
     }
