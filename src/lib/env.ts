@@ -6,7 +6,15 @@ export const env = createEnv({
     NODE_ENV: z.enum(['development', 'production']).default('development'),
   },
   server: {
-    SITE_URL: z.string().default('https://starter.coolify.aerolab.dev/'),
+    // Vercel sets VERCEL_PROJECT_PRODUCTION_URL (without protocol) on deploy
+    SITE_URL: z
+      .string()
+      .url()
+      .default(
+        process.env.VERCEL_PROJECT_PRODUCTION_URL
+          ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+          : 'http://localhost:3000',
+      ),
     IGDB_CLIENT_ID: z.string(),
     IGDB_CLIENT_SECRET: z.string(),
   },
